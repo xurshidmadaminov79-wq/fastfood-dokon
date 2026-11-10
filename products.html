@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="light" data-lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVOS Express | To'liq Menyu va Katalog</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================
+           1. CSS VARIABLES & THEME SETUP
+           ========================================== */
+        :root {
+            --primary: #00843D;
+            --primary-hover: #006830;
+            --primary-light: rgba(0, 132, 61, 0.1);
+            --accent: #FF6B00;
+            --accent-hover: #E05E00;
+            --bg-body: #F8F9FA;
+            --bg-card: #FFFFFF;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --text-main: #1A1D20;
+            --text-muted: #6C757D;
+            --border-color: #E9ECEF;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 16px 32px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-full: 999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0F1215;
+            --bg-card: #181C21;
+            --bg-header: rgba(24, 28, 33, 0.95);
+            --text-main: #F1F3F5;
+            --text-muted: #9A9FA5;
+            --border-color: #2A2F35;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 32px rgba(0,0,0,0.5);
+            --primary-light: rgba(0, 132, 61, 0.2);
+        }
+
+        /* ==========================================
+           2. RESET & BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { border: none; outline: none; background: none; cursor: pointer; font-family: inherit; }
+        .container { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
+
+        /* ==========================================
+           3. HEADER & NAVIGATION
+           ========================================== */
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-header); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color); transition: var(--transition);
+        }
+
+        .header-wrapper { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+
+        .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 600; font-size: 15px; color: var(--text-main); transition: var(--transition); position: relative; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        .nav-links a.active::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 100%; height: 3px;
+            background-color: var(--primary); border-radius: var(--radius-full);
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+
+        .action-btn {
+            position: relative; width: 44px; height: 44px; border-radius: var(--radius-md);
+            background-color: var(--bg-body); color: var(--text-main); display: flex;
+            align-items: center; justify-content: center; font-size: 18px; border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .action-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+
+        .badge {
+            position: absolute; top: -6px; right: -6px; background-color: var(--accent); color: #FFF;
+            font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-card);
+        }
+
+        .lang-switcher { position: relative; }
+        .lang-btn {
+            display: flex; align-items: center; gap: 6px; padding: 8px 14px;
+            border-radius: var(--radius-md); border: 1px solid var(--border-color);
+            background: var(--bg-body); color: var(--text-main); font-weight: 600; font-size: 14px;
+        }
+
+        .lang-dropdown {
+            position: absolute; top: 110%; right: 0; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md); width: 130px; display: none; flex-direction: column; overflow: hidden; z-index: 10;
+        }
+        .lang-dropdown.show { display: flex; }
+        .lang-option { padding: 10px 16px; font-size: 14px; font-weight: 500; text-align: left; transition: var(--transition); }
+        .lang-option:hover { background-color: var(--primary-light); color: var(--primary); }
+
+        /* ==========================================
+           4. CATALOG CONTROLS
+           ========================================== */
+        .catalog-header { padding: 40px 0 20px; }
+        .catalog-title-area { margin-bottom: 24px; }
+        .catalog-main-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+        .catalog-subtitle { color: var(--text-muted); font-size: 15px; }
+
+        .catalog-controls {
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+            flex-wrap: wrap; background-color: var(--bg-card); padding: 20px;
+            border-radius: var(--radius-lg); border: 1px solid var(--border-color);
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+
+        .search-box { position: relative; flex-grow: 1; max-width: 450px; }
+        .search-input {
+            width: 100%; padding: 12px 16px 12px 46px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-color); background-color: var(--bg-body);
+            color: var(--text-main); font-size: 15px; outline: none; transition: var(--transition);
+        }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+        .search-icon { position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; }
+
+        .filter-buttons-group { display: flex; align-items: center; gap: 10px; overflow-x: auto; max-width: 100%; }
+        .filter-tab {
+            padding: 10px 20px; border-radius: var(--radius-md); background-color: var(--bg-body);
+            border: 1px solid var(--border-color); color: var(--text-main); font-weight: 600; font-size: 14px;
+            white-space: nowrap; transition: var(--transition);
+        }
+        .filter-tab:hover, .filter-tab.active { background-color: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+
+        /* ==========================================
+           5. PRODUCTS CATALOG GRID
+           ========================================== */
+        .catalog-section { padding: 0 0 60px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+
+        .product-card {
+            background-color: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color);
+            padding: 20px; position: relative; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition);
+        }
+        .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: transparent; }
+
+        .card-fav-btn {
+            position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%;
+            background-color: rgba(255,255,255,0.8); backdrop-filter: blur(4px); display: flex;
+            align-items: center; justify-content: center; font-size: 16px; color: var(--text-muted);
+            box-shadow: var(--shadow-sm); z-index: 2; transition: var(--transition);
+        }
+        .card-fav-btn.active { color: #E74C3C; background-color: #FFF; }
+
+        .product-img-wrapper { width: 100%; height: 200px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 16px; background-color: var(--bg-body); }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .product-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .product-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--border-color); }
+        .product-price { font-size: 18px; font-weight: 800; color: var(--primary); }
+
+        .add-cart-btn {
+            background-color: var(--primary-light); color: var(--primary); padding: 10px 18px;
+            border-radius: var(--radius-md); font-weight: 700; font-size: 14px; transition: var(--transition);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .add-cart-btn:hover { background-color: var(--primary); color: #FFFFFF; }
+
+        /* ==========================================
+           6. MODALS & FOOTER
+           ========================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px); z-index: 1000; opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-drawer {
+            position: fixed; top: 0; right: -450px; width: 100%; max-width: 420px; height: 100%;
+            background: var(--bg-card); z-index: 1001; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-drawer { right: 0; }
+        .drawer-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+        .drawer-title { font-size: 20px; font-weight: 800; }
+        .close-btn { font-size: 20px; color: var(--text-muted); }
+        .drawer-body { padding: 20px; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        .cart-item { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); }
+        .cart-item-img { width: 64px; height: 64px; border-radius: var(--radius-sm); object-fit: cover; }
+        .cart-item-info { flex-grow: 1; }
+        .cart-item-title { font-size: 15px; font-weight: 700; }
+        .cart-item-price { font-size: 14px; color: var(--primary); font-weight: 700; }
+        .cart-controls { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+        .qty-btn { width: 26px; height: 26px; border-radius: var(--radius-sm); background: var(--bg-body); border: 1px solid var(--border-color); font-weight: 700; }
+        .drawer-footer { padding: 20px; border-top: 1px solid var(--border-color); background: var(--bg-body); }
+        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+        .checkout-btn { width: 100%; background: var(--primary); color: #FFF; padding: 14px; border-radius: var(--radius-md); font-weight: 700; text-align: center; display: block; }
+        .checkout-btn:hover { background: var(--primary-hover); }
+
+        footer { background-color: var(--bg-card); border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-brand p { color: var(--text-muted); margin-top: 14px; font-size: 14px; }
+        .footer-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { color: var(--text-muted); font-size: 14px; transition: var(--transition); }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { border-top: 1px solid var(--border-color); padding-top: 24px; text-align: center; font-size: 14px; color: var(--text-muted); }
+
+        @media (max-width: 992px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container header-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-burger"></i> EVOS<span>.express</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html" data-lang-key="nav_home">Asosiy</a></li>
+                <li><a href="products.html" class="active" data-lang-key="nav_menu">Menyu</a></li>
+                <li><a href="about.html" data-lang-key="nav_about">Biz haqimizda</a></li>
+                <li><a href="cart.html" data-lang-key="nav_cart">Savat</a></li>
+                <li><a href="contact.html" data-lang-key="nav_contact">Aloqa</a></li>
+            </ul>
+
+            <div class="header-actions">
+                <button class="action-btn" id="themeToggleBtn" title="Rejimni o'zgartirish">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <span id="currentLangText">UZ</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button class="lang-option" onclick="changeLanguage('uz')">O'zbek</button>
+                        <button class="lang-option" onclick="changeLanguage('ru')">Русский</button>
+                        <button class="lang-option" onclick="changeLanguage('en')">English</button>
+                    </div>
+                </div>
+
+                <button class="action-btn" id="favModalBtn">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="badge" id="favBadge">0</span>
+                </button>
+
+                <button class="action-btn" id="cartModalBtn">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span class="badge" id="cartBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Catalog Area -->
+    <main>
+        <section class="catalog-header">
+            <div class="container">
+                <div class="catalog-title-area">
+                    <h1 class="catalog-main-title" data-lang-key="cat_main_title">Bizning Boy Menuyimiz</h1>
+                    <p class="catalog-subtitle" data-lang-key="cat_subtitle">O'zingizga yoqqan mazali lavash, pitsa yoki salqin ichimlikni tanlang.</p>
+                </div>
+
+                <!-- Catalog Controls: Search and Filters -->
+                <div class="catalog-controls">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Taom nomini qidirish..." data-lang-key-placeholder="search_placeholder">
+                    </div>
+                    <div class="filter-buttons-group">
+                        <button class="filter-tab active" onclick="filterCatalog('all')" data-lang-key="cat_all">Barchasi</button>
+                        <button class="filter-tab" onclick="filterCatalog('lavash')" data-lang-key="cat_lavash">Lavash</button>
+                        <button class="filter-tab" onclick="filterCatalog('pizza')" data-lang-key="cat_pizza">Pitsa</button>
+                        <button class="filter-tab" onclick="filterCatalog('drink')" data-lang-key="cat_drink">Ichimliklar</button>
+                        <button class="filter-tab" onclick="filterCatalog('burger')" data-lang-key="cat_burger">Burgerlar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid Section -->
+        <section class="catalog-section">
+            <div class="container">
+                <div class="products-grid" id="catalogGrid">
+                    <!-- Dynamic rendering via JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Side Drawer Cart Modal -->
+    <div class="modal-overlay" id="cartOverlay">
+        <div class="modal-drawer">
+            <div class="drawer-header">
+                <h3 class="drawer-title" data-lang-key="cart_title">Sizning Savatchangiz</h3>
+                <button class="close-btn" id="closeCartBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body" id="cartItemsContainer"></div>
+            <div class="drawer-footer">
+                <div class="total-row">
+                    <span data-lang-key="total_price">Jami:</span>
+                    <span id="cartTotalPrice">0 so'm</span>
+                </div>
+                <a href="cart.html" class="checkout-btn" data-lang-key="btn_checkout">Buyurtmani Rasmiylashtirish</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side Drawer Favorites Modal -->
+    <div class="modal-overlay" id="favOverlay">
+        <div class="modal-drawer">
+            <div class="drawer-header">
+                <h3 class="drawer-title" data-lang-key="fav_title">Sevimli Taomlar</h3>
+                <button class="close-btn" id="closeFavBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body" id="favItemsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fa-solid fa-burger"></i> EVOS<span>.express</span>
+                    </a>
+                    <p data-lang-key="footer_desc">O'zbekistondagi eng yirik va zamonaviy fast-food tarmoqlaridan biri.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-lang-key="footer_col1">Sahifalar</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html" data-lang-key="nav_home">Asosiy</a></li>
+                        <li><a href="products.html" data-lang-key="nav_menu">Menyu</a></li>
+                        <li><a href="about.html" data-lang-key="nav_about">Biz haqimizda</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-lang-key="footer_col2">Yordam</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-lang-key="nav_contact">Aloqa va Filiallar</a></li>
+                        <li><a href="cart.html" data-lang-key="nav_cart">Buyurtma berish</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EVOS Express. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+       JAVASCRIPT LOGIC (16 RICH PRODUCTS CATALOG)
+       ========================================== -->
+    <script>
+        const productsData = [
+            /* --- LAVASH --- */
+            {
+                id: 1, category: 'lavash',
+                name: { uz: 'Mol go\'shtli Lavash Standard', ru: 'Лаваш с говядиной Стандарт', en: 'Beef Lavash Standard' },
+                desc: { uz: 'Taza mol go\'shti, chipslar, pomidor va maxsus sous', ru: 'Сочная говядина, чипсы, томаты и фирменный соус', en: 'Beef, chips, tomatoes, and special sauce' },
+                price: 32000, img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 2, category: 'lavash',
+                name: { uz: 'Pishloqli Tovuq Lavash', ru: 'Куриный Лаваш с сыром', en: 'Chicken Cheese Lavash' },
+                desc: { uz: 'Tovuq go\'shti, erigan pishloq va yangi sabzavotlar', ru: 'Сочное куриное филе, сыр и свежие овощи', en: 'Chicken fillet, melted cheese, and vegetables' },
+                price: 34000, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 3, category: 'lavash',
+                name: { uz: 'Mol go\'shtli Big Lavash', ru: 'Большой Лаваш с говядиной', en: 'Beef Big Lavash' },
+                desc: { uz: 'Ikki baravar ko\'p mol go\'shti va sersuv pishloq', ru: 'Двойная порция сочной говядины и тянущийся сыр', en: 'Double portion of beef and extra cheese' },
+                price: 42000, img: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 4, category: 'lavash',
+                name: { uz: 'Achchiq Tovuqli Lavash', ru: 'Острый Куриный Лаваш', en: 'Spicy Chicken Lavash' },
+                desc: { uz: 'Tovuq go\'shti, jalapeno qalampiri va achchiq sous', ru: 'Куриное филе, перец халапеньо, острый фирменный соус', en: 'Chicken fillet, jalapeno peppers, and hot sauce' },
+                price: 35000, img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80'
+            },
+
+            /* --- PIZZA --- */
+            {
+                id: 5, category: 'pizza',
+                name: { uz: 'Pepperoni Pitsa 30sm', ru: 'Пицца Пепперони 30см', en: 'Pepperoni Pizza 30cm' },
+                desc: { uz: 'Piquant pepperoni kolbasasi, Motsarella pishlog\'i va sous', ru: 'Пикантная пепперони, сыр Моцарелла, соус', en: 'Spicy pepperoni, Mozzarella cheese, tomato sauce' },
+                price: 68000, img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 6, category: 'pizza',
+                name: { uz: 'Kombinatsiyalangan Pitsa', ru: 'Комбинированная Пицца', en: 'Combination Pizza' },
+                desc: { uz: 'Go\'shtli assorti, zaytun, bulg\'or qalampiri, pishloq', ru: 'Мясное ассорти, маслины, перец, сыр', en: 'Assorted meat, olives, peppers, extra cheese' },
+                price: 75000, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 7, category: 'pizza',
+                name: { uz: 'Margarita Pitsa 30sm', ru: 'Пицца Маргарита 30см', en: 'Margherita Pizza 30cm' },
+                desc: { uz: 'Maxsus pomidor sousi, Motsarella va fresh rayhon', ru: 'Фирменный томатный соус, моцарелла и базилик', en: 'Signature tomato sauce, mozzarella, and basil' },
+                price: 59000, img: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 8, category: 'pizza',
+                name: { uz: 'Tovuqli Barbeque Pitsa', ru: 'Куриная Барбекю Пицца', en: 'Chicken BBQ Pizza' },
+                desc: { uz: 'Tovuq bo\'laklari, qo\'ziqorin, BBQ sous va pishloq', ru: 'Кусочки курицы, грибы, соус барбекю и сыр', en: 'Chicken pieces, mushrooms, BBQ sauce, and cheese' },
+                price: 72000, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80'
+            },
+
+            /* --- DRINKS --- */
+            {
+                id: 9, category: 'drink',
+                name: { uz: 'Coca-Cola 1.5L', ru: 'Кока-Кола 1.5Л', en: 'Coca-Cola 1.5L' },
+                desc: { uz: 'Salqinlashtiruvchi gazlangan ichimlik', ru: 'Освежающий газированный напиток', en: 'Refreshing carbonated soft drink' },
+                price: 14000, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 10, category: 'drink',
+                name: { uz: 'Meva Sharbati (Olma) 1L', ru: 'Сок Яблочный 1Л', en: 'Apple Juice 1L' },
+                desc: { uz: 'Tabiiy meva sharbati', ru: 'Натуральный яблочный сок', en: '100% Natural fresh apple juice' },
+                price: 16000, img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 11, category: 'drink',
+                name: { uz: 'Fanta Orange 1.5L', ru: 'Фанта Апельсин 1.5Л', en: 'Fanta Orange 1.5L' },
+                desc: { uz: 'Ajoyib apelsin ta\'mli gazlangan ichimlik', ru: 'Газированный напиток с ароматом апельсина', en: 'Carbonated orange flavored soft drink' },
+                price: 14000, img: 'https://images.unsplash.com/photo-1624552184280-9e9632bbeee9?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 12, category: 'drink',
+                name: { uz: 'Limonli Muzdek Choy 0.5L', ru: 'Холодный Чай с лимоном 0.5Л', en: 'Lemon Ice Tea 0.5L' },
+                desc: { uz: 'Tetiklashtiruvchi muzdek limonli choy', ru: 'Освежающий холодный чай с лимоном', en: 'Refreshing iced lemon tea' },
+                price: 9000, img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80'
+            },
+
+            /* --- BURGERS --- */
+            {
+                id: 13, category: 'burger',
+                name: { uz: 'Double Cheeseburger', ru: 'Двойной Чизбургер', en: 'Double Cheeseburger' },
+                desc: { uz: 'Ikki qavat mol go\'shti kotleti, ikki qatlam cheddar pishlog\'i', ru: 'Двойная котлета из говядины, двойной сыр чеддер', en: 'Double beef patties, double cheddar cheese, pickles' },
+                price: 39000, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 14, category: 'burger',
+                name: { uz: 'Chicken Burger', ru: 'Чикен Бургер', en: 'Chicken Burger' },
+                desc: { uz: 'Qarsildoq tovuq filesi, maxsus burger sousi, salat bargi', ru: 'Хрустящее куриное филе, соус, салат айсберг', en: 'Crispy chicken fillet, burger sauce, lettuce' },
+                price: 31000, img: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 15, category: 'burger',
+                name: { uz: 'Mega Beef Burger', ru: 'Мега Бургер с говядиной', en: 'Mega Beef Burger' },
+                desc: { uz: 'Katta kotlet, bekon, qizil piyoz va maxsus smoky sous', ru: 'Большая котлета, бекон, красный лук, фирменный соус', en: 'Large beef patty, bacon, red onion, smoky sauce' },
+                price: 45000, img: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 16, category: 'burger',
+                name: { uz: 'Crispy Fish Burger', ru: 'Фиш Бургер с хрустящей рыбой', en: 'Crispy Fish Burger' },
+                desc: { uz: 'Nozik baliq filesi, tartar sousi va pishloq', ru: 'Нежное рыбное филе, соус тартар и сыр', en: 'Tender fish fillet, tartar sauce, and cheese' },
+                price: 36000, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80'
+            }
+        ];
+
+        const translations = {
+            uz: {
+                nav_home: "Asosiy", nav_menu: "Menyu", nav_about: "Biz haqimizda", nav_cart: "Savat", nav_contact: "Aloqa",
+                cat_main_title: "Bizning Boy Menuyimiz", cat_subtitle: "O'zingizga yoqqan mazali lavash, pitsa yoki salqin ichimlikni tanlang.",
+                search_placeholder: "Taom nomini qidirish...", cat_all: "Barchasi", cat_lavash: "Lavash", cat_pizza: "Pitsa",
+                cat_drink: "Ichimliklar", cat_burger: "Burgerlar", cart_title: "Sizning Savatchangiz", fav_title: "Sevimli Taomlar",
+                total_price: "Jami:", btn_checkout: "Buyurtmani Rasmiylashtirish",
+                footer_desc: "O'zbekistondagi eng yirik va zamonaviy fast-food tarmoqlaridan biri.", footer_col1: "Sahifalar", footer_col2: "Yordam",
+                add_to_cart: "Savatga"
+            },
+            ru: {
+                nav_home: "Главная", nav_menu: "Меню", nav_about: "О нас", nav_cart: "Корзина", nav_contact: "Контакты",
+                cat_main_title: "Наше Богатое Меню", cat_subtitle: "Выберите любимый лаваш, пиццу или прохладительный напиток.",
+                search_placeholder: "Поиск блюда...", cat_all: "Все", cat_lavash: "Лаваш", cat_pizza: "Пицца",
+                cat_drink: "Напитки", cat_burger: "Бургеры", cart_title: "Ваша Корзина", fav_title: "Избранные Блюда",
+                total_price: "Итого:", btn_checkout: "Оформить заказ",
+                footer_desc: "Одна из крупнейших и современных сетей быстрого питания в Узбекистане.", footer_col1: "Страницы", footer_col2: "Помощь",
+                add_to_cart: "В корзину"
+            },
+            en: {
+                nav_home: "Home", nav_menu: "Menu", nav_about: "About Us", nav_cart: "Cart", nav_contact: "Contacts",
+                cat_main_title: "Our Rich Menu", cat_subtitle: "Choose your favorite lavash, pizza, or refreshing drink.",
+                search_placeholder: "Search dishes...", cat_all: "All", cat_lavash: "Lavash", cat_pizza: "Pizza",
+                cat_drink: "Drinks", cat_burger: "Burgers", cart_title: "Your Shopping Cart", fav_title: "Favorite Dishes",
+                total_price: "Total:", btn_checkout: "Proceed to Checkout",
+                footer_desc: "One of the largest and most modern fast-food chains in Uzbekistan.", footer_col1: "Pages", footer_col2: "Help",
+                add_to_cart: "Add to Cart"
+            }
+        };
+
+        let currentLang = localStorage.getItem('app_lang') || 'uz';
+        let currentTheme = localStorage.getItem('app_theme') || 'light';
+        let cartState = JSON.parse(localStorage.getItem('app_cart')) || [];
+        let favState = JSON.parse(localStorage.getItem('app_favs')) || [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme(currentTheme);
+            applyLanguage(currentLang);
+            renderCatalog();
+            updateBadges();
+            setupEvents();
+        });
+
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('app_theme', theme);
+            themeToggleBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        }
+        themeToggleBtn.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(currentTheme);
+        });
+
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        langBtn.addEventListener('click', () => langDropdown.classList.toggle('show'));
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+            applyLanguage(lang);
+            renderCatalog();
+            renderCart();
+            renderFavs();
+            langDropdown.classList.remove('show');
+        }
+
+        function applyLanguage(lang) {
+            document.documentElement.setAttribute('data-lang', lang);
+            document.getElementById('currentLangText').textContent = lang.toUpperCase();
+            document.querySelectorAll('[data-lang-key]').forEach(elem => {
+                const key = elem.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    elem.textContent = translations[lang][key];
+                }
+            });
+            const searchInput = document.getElementById('searchInput');
+            if (translations[lang]['search_placeholder']) {
+                searchInput.placeholder = translations[lang]['search_placeholder'];
+            }
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+
+            const filtered = productsData.filter(item => {
+                const matchCat = (activeCategory === 'all' || item.category === activeCategory);
+                const itemName = item.name[currentLang].toLowerCase();
+                const matchSearch = itemName.includes(searchQuery.toLowerCase());
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0;">Hech qanday mahsulot topilmadi.</p>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const isFav = favState.includes(item.id);
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <button class="card-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(${item.id})">
+                        <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i>
+                    </button>
+                    <div>
+                        <div class="product-img-wrapper">
+                            <img src="${item.img}" alt="${item.name[currentLang]}" class="product-img">
+                        </div>
+                        <h3 class="product-title">${item.name[currentLang]}</h3>
+                        <p class="product-desc">${item.desc[currentLang]}</p>
+                    </div>
+                    <div class="product-bottom">
+                        <span class="product-price">${item.price.toLocaleString()} so'm</span>
+                        <button class="add-cart-btn" onclick="addToCart(${item.id})">
+                            <i class="fa-solid fa-plus"></i> ${translations[currentLang].add_to_cart}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCatalog(cat) {
+            activeCategory = cat;
+            document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            renderCatalog();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderCatalog();
+        });
+
+        function addToCart(id) {
+            const existing = cartState.find(item => item.id === id);
+            if (existing) { existing.qty += 1; } else { cartState.push({ id, qty: 1 }); }
+            saveCart();
+            updateBadges();
+            openModal('cartOverlay');
+            renderCart();
+        }
+
+        function toggleFav(id) {
+            if (favState.includes(id)) {
+                favState = favState.filter(item => item !== id);
+            } else {
+                favState.push(id);
+            }
+            localStorage.setItem('app_favs', JSON.stringify(favState));
+            updateBadges();
+            renderCatalog();
+            renderFavs();
+        }
+
+        function updateBadges() {
+            document.getElementById('cartBadge').textContent = cartState.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('favBadge').textContent = favState.length;
+        }
+
+        function saveCart() {
+            localStorage.setItem('app_cart', JSON.stringify(cartState));
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (cartState.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted); margin-top:20px;">Savatchingiz bo'sh.</p>`;
+                document.getElementById('cartTotalPrice').textContent = `0 so'm`;
+                return;
+            }
+
+            cartState.forEach(cartItem => {
+                const product = productsData.find(p => p.id === cartItem.id);
+                if (product) {
+                    total += product.price * cartItem.qty;
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <img src="${product.img}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${product.name[currentLang]}</div>
+                            <div class="cart-item-price">${product.price.toLocaleString()} so'm</div>
+                            <div class="cart-controls">
+                                <button class="qty-btn" onclick="changeQty(${product.id}, -1)">-</button>
+                                <span>${cartItem.qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${product.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+            document.getElementById('cartTotalPrice').textContent = `${total.toLocaleString()} so'm`;
+        }
+
+        function changeQty(id, delta) {
+            const item = cartState.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) cartState = cartState.filter(i => i.id !== id);
+            }
+            saveCart();
+            updateBadges();
+            renderCart();
+        }
+
+        function renderFavs() {
+            const container = document.getElementById('favItemsContainer');
+            container.innerHTML = '';
+            if (favState.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted); margin-top:20px;">Sevimli taomlar ro'yxati bo'sh.</p>`;
+                return;
+            }
+            favState.forEach(favId => {
+                const product = productsData.find(p => p.id === favId);
+                if (product) {
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <img src="${product.img}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${product.name[currentLang]}</div>
+                            <div class="cart-item-price">${product.price.toLocaleString()} so'm</div>
+                        </div>
+                        <button class="action-btn" onclick="toggleFav(${product.id})"><i class="fa-solid fa-trash"></i></button>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+        }
+
+        function setupEvents() {
+            document.getElementById('cartModalBtn').addEventListener('click', () => { renderCart(); openModal('cartOverlay'); });
+            document.getElementById('closeCartBtn').addEventListener('click', () => closeModal('cartOverlay'));
+            document.getElementById('favModalBtn').addEventListener('click', () => { renderFavs(); openModal('favOverlay'); });
+            document.getElementById('closeFavBtn').addEventListener('click', () => closeModal('favOverlay'));
+        }
+    </script>
+</body>
+</html>

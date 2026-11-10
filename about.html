@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="light" data-lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVOS Express | Biz haqimizda</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================
+           1. CSS VARIABLES & THEME SETUP
+           ========================================== */
+        :root {
+            --primary: #00843D;
+            --primary-hover: #006830;
+            --primary-light: rgba(0, 132, 61, 0.1);
+            --accent: #FF6B00;
+            --accent-hover: #E05E00;
+            --bg-body: #F8F9FA;
+            --bg-card: #FFFFFF;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --text-main: #1A1D20;
+            --text-muted: #6C757D;
+            --border-color: #E9ECEF;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 16px 32px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-full: 999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0F1215;
+            --bg-card: #181C21;
+            --bg-header: rgba(24, 28, 33, 0.95);
+            --text-main: #F1F3F5;
+            --text-muted: #9A9FA5;
+            --border-color: #2A2F35;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 32px rgba(0,0,0,0.5);
+            --primary-light: rgba(0, 132, 61, 0.2);
+        }
+
+        /* ==========================================
+           2. RESET & BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { border: none; outline: none; background: none; cursor: pointer; font-family: inherit; }
+        .container { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
+
+        /* ==========================================
+           3. HEADER & NAVIGATION
+           ========================================== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-header);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-main);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: var(--radius-full);
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+
+        .action-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .action-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: var(--accent);
+            color: #FFF;
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-card);
+        }
+
+        .lang-switcher { position: relative; }
+        .lang-btn {
+            display: flex; align-items: center; gap: 6px; padding: 8px 14px;
+            border-radius: var(--radius-md); border: 1px solid var(--border-color);
+            background: var(--bg-body); color: var(--text-main); font-weight: 600; font-size: 14px;
+        }
+
+        .lang-dropdown {
+            position: absolute; top: 110%; right: 0; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md); width: 130px; display: none; flex-direction: column; overflow: hidden; z-index: 10;
+        }
+
+        .lang-dropdown.show { display: flex; }
+        .lang-option { padding: 10px 16px; font-size: 14px; font-weight: 500; text-align: left; transition: var(--transition); }
+        .lang-option:hover { background-color: var(--primary-light); color: var(--primary); }
+
+        /* ==========================================
+           4. ABOUT HERO & STATS SECTION
+           ========================================== */
+        .about-hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .about-title {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .about-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 30px 20px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           5. STORY & MAP SECTION
+           ========================================== */
+        .about-story {
+            padding: 40px 0 60px;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .story-img {
+            width: 100%;
+            height: 380px;
+            border-radius: var(--radius-lg);
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+        }
+
+        .story-content h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .map-header {
+            margin-bottom: 24px;
+        }
+
+        .map-header h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .map-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ==========================================
+           6. MODALS & FOOTER
+           ========================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000;
+            opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-drawer {
+            position: fixed; top: 0; right: -450px; width: 100%; max-width: 420px; height: 100%;
+            background: var(--bg-card); z-index: 1001; box-shadow: var(--shadow-lg);
+            display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-drawer { right: 0; }
+        .drawer-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+        .drawer-title { font-size: 20px; font-weight: 800; }
+        .close-btn { font-size: 20px; color: var(--text-muted); }
+        .drawer-body { padding: 20px; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        .cart-item { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); }
+        .cart-item-img { width: 64px; height: 64px; border-radius: var(--radius-sm); object-fit: cover; }
+        .cart-item-info { flex-grow: 1; }
+        .cart-item-title { font-size: 15px; font-weight: 700; }
+        .cart-item-price { font-size: 14px; color: var(--primary); font-weight: 700; }
+        .cart-controls { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+        .qty-btn { width: 26px; height: 26px; border-radius: var(--radius-sm); background: var(--bg-body); border: 1px solid var(--border-color); font-weight: 700; }
+        .drawer-footer { padding: 20px; border-top: 1px solid var(--border-color); background: var(--bg-body); }
+        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+        .checkout-btn { width: 100%; background: var(--primary); color: #FFF; padding: 14px; border-radius: var(--radius-md); font-weight: 700; text-align: center; display: block; }
+
+        footer { background-color: var(--bg-card); border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-brand p { color: var(--text-muted); margin-top: 14px; font-size: 14px; }
+        .footer-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { color: var(--text-muted); font-size: 14px; transition: var(--transition); }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { border-top: 1px solid var(--border-color); padding-top: 24px; text-align: center; font-size: 14px; color: var(--text-muted); }
+
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .story-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container header-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-burger"></i> EVOS<span>.express</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html" data-lang-key="nav_home">Asosiy</a></li>
+                <li><a href="products.html" data-lang-key="nav_menu">Menyu</a></li>
+                <li><a href="about.html" class="active" data-lang-key="nav_about">Biz haqimizda</a></li>
+                <li><a href="cart.html" data-lang-key="nav_cart">Savat</a></li>
+                <li><a href="contact.html" data-lang-key="nav_contact">Aloqa</a></li>
+            </ul>
+
+            <div class="header-actions">
+                <button class="action-btn" id="themeToggleBtn" title="Rejimni o'zgartirish">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <span id="currentLangText">UZ</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button class="lang-option" onclick="changeLanguage('uz')">O'zbek</button>
+                        <button class="lang-option" onclick="changeLanguage('ru')">Русский</button>
+                        <button class="lang-option" onclick="changeLanguage('en')">English</button>
+                    </div>
+                </div>
+
+                <button class="action-btn" id="favModalBtn">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="badge" id="favBadge">0</span>
+                </button>
+
+                <button class="action-btn" id="cartModalBtn">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span class="badge" id="cartBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- About Hero -->
+        <section class="about-hero">
+            <div class="container">
+                <h1 class="about-title" data-lang-key="about_title">Biz Milliy Fast-Food Sohasida Yetakchimiz</h1>
+                <p class="about-subtitle" data-lang-key="about_subtitle">EVOS — har bir mijoz uchun yuqori sifat, tezkor yetkazib berish va o'zgacha shirin taomlarni taqdim etuvchi fast-food brendi.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">70+</div>
+                        <div class="stat-label" data-lang-key="stat_1">Zamonaviy Filiallar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">30 daq</div>
+                        <div class="stat-label" data-lang-key="stat_2">O'rtacha Yetkazish</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50,000+</div>
+                        <div class="stat-label" data-lang-key="stat_3">Mamnun Mijozlar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label" data-lang-key="stat_4">Halol va Taza</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story & Interactive Map -->
+        <section class="about-story">
+            <div class="container">
+                <div class="story-grid">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="EVOS Kitchen" class="story-img">
+                    <div class="story-content">
+                        <h2 data-lang-key="story_title">Bizning Sifat Kafolatimiz</h2>
+                        <p data-lang-key="story_desc1">Biz har bir lavash, pitsa va burger tayyorlanish jarayonida masalliqlar yangiligiga alohida e'tibor qaratamiz. Faqat ishonchli mahalliy ta'minotchilar va HALOL sertifikatiga ega mahsulotlar ishlatiladi.</p>
+                        <p data-lang-key="story_desc2">Bugungi kunda Toshkent va O'zbekistonning barcha asosiy shaharlarida joylashgan filiallarimiz orqali har kuni minglab insonlarga quvonch ulashmoqdamiz.</p>
+                    </div>
+                </div>
+
+                <!-- Google Map Section -->
+                <div class="map-section">
+                    <div class="map-header">
+                        <h3 data-lang-key="map_title">Bosh Filialimiz Joylashuvi</h3>
+                        <p data-lang-key="map_desc">Toshkent shahridagi markaziy xaritamiz va joylashuvimiz:</p>
+                    </div>
+                    <div class="map-container">
+                        <!-- Embedded Tashkent Location Map -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d191884.743983226!2d69.13928247073998!3d41.28251254641195!2m3!1f0!0!f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e95f%3A0xbea430b996e16a96!2sTashkent%2C%20Uzbekistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Side Drawer Cart Modal -->
+    <div class="modal-overlay" id="cartOverlay">
+        <div class="modal-drawer">
+            <div class="drawer-header">
+                <h3 class="drawer-title" data-lang-key="cart_title">Sizning Savatchangiz</h3>
+                <button class="close-btn" id="closeCartBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body" id="cartItemsContainer"></div>
+            <div class="drawer-footer">
+                <div class="total-row">
+                    <span data-lang-key="total_price">Jami:</span>
+                    <span id="cartTotalPrice">0 so'm</span>
+                </div>
+                <a href="cart.html" class="checkout-btn" data-lang-key="btn_checkout">Buyurtmani Rasmiylashtirish</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side Drawer Favorites Modal -->
+    <div class="modal-overlay" id="favOverlay">
+        <div class="modal-drawer">
+            <div class="drawer-header">
+                <h3 class="drawer-title" data-lang-key="fav_title">Sevimli Taomlar</h3>
+                <button class="close-btn" id="closeFavBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body" id="favItemsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fa-solid fa-burger"></i> EVOS<span>.express</span>
+                    </a>
+                    <p data-lang-key="footer_desc">O'zbekistondagi eng yirik va zamonaviy fast-food tarmoqlaridan biri.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-lang-key="footer_col1">Sahifalar</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html" data-lang-key="nav_home">Asosiy</a></li>
+                        <li><a href="products.html" data-lang-key="nav_menu">Menyu</a></li>
+                        <li><a href="about.html" data-lang-key="nav_about">Biz haqimizda</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-lang-key="footer_col2">Yordam</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-lang-key="nav_contact">Aloqa va Filiallar</a></li>
+                        <li><a href="cart.html" data-lang-key="nav_cart">Buyurtma berish</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EVOS Express. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+       JAVASCRIPT LOGIC
+       ========================================== -->
+    <script>
+        const productsData = [
+            { id: 1, category: 'lavash', name: { uz: 'Mol go\'shtli Lavash Standard', ru: 'Лаваш с говядиной Стандарт', en: 'Beef Lavash Standard' }, price: 32000, img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=600&q=80' },
+            { id: 2, category: 'lavash', name: { uz: 'Pishloqli Tovuq Lavash', ru: 'Куриный Лаваш с сыром', en: 'Chicken Cheese Lavash' }, price: 34000, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80' },
+            { id: 3, category: 'pizza', name: { uz: 'Pepperoni Pitsa 30sm', ru: 'Пицца Пепперони 30см', en: 'Pepperoni Pizza 30cm' }, price: 68000, img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80' }
+        ];
+
+        const translations = {
+            uz: {
+                nav_home: "Asosiy", nav_menu: "Menyu", nav_about: "Biz haqimizda", nav_cart: "Savat", nav_contact: "Aloqa",
+                about_title: "Biz Milliy Fast-Food Sohasida Yetakchimiz",
+                about_subtitle: "EVOS — har bir mijoz uchun yuqori sifat, tezkor yetkazib berish va o'zgacha shirin taomlarni taqdim etuvchi fast-food brendi.",
+                stat_1: "Zamonaviy Filiallar", stat_2: "O'rtacha Yetkazish", stat_3: "Mamnun Mijozlar", stat_4: "Halol va Taza",
+                story_title: "Bizning Sifat Kafolatimiz",
+                story_desc1: "Biz har bir lavash, pitsa va burger tayyorlanish jarayonida masalliqlar yangiligiga alohida e'tibor qaratamiz. Faqat ishonchli mahalliy ta'minotchilar va HALOL sertifikatiga ega mahsulotlar ishlatiladi.",
+                story_desc2: "Bugungi kunda Toshkent va O'zbekistonning barcha asosiy shaharlarida joylashgan filiallarimiz orqali har kuni minglab insonlarga quvonch ulashmoqdamiz.",
+                map_title: "Bosh Filialimiz Joylashuvi", map_desc: "Toshkent shahridagi markaziy xaritamiz va joylashuvimiz:",
+                cart_title: "Sizning Savatchangiz", fav_title: "Sevimli Taomlar", total_price: "Jami:", btn_checkout: "Buyurtmani Rasmiylashtirish",
+                footer_desc: "O'zbekistondagi eng yirik va zamonaviy fast-food tarmoqlaridan biri.", footer_col1: "Sahifalar", footer_col2: "Yordam"
+            },
+            ru: {
+                nav_home: "Главная", nav_menu: "Меню", nav_about: "О нас", nav_cart: "Корзина", nav_contact: "Контакты",
+                about_title: "Мы Лидеры в Сфере Национального Фастфуда",
+                about_subtitle: "EVOS — бренд быстрого питания, предоставляющий высокое качество и быструю доставку.",
+                stat_1: "Современных Филиалов", stat_2: "Средняя Доставка", stat_3: "Довольных Клиентов", stat_4: "Халяль и Свежесть",
+                story_title: "Гарантия Качества",
+                story_desc1: "Мы уделяем особое внимание свежести ингредиентов. Используем только сертифицированные продукты ХАЛЯЛЬ.",
+                story_desc2: "Сегодня мы дарим радость тысячам людей ежедневно через наши филиалы по всему Узбекистану.",
+                map_title: "Расположение Главного Филиала", map_desc: "Карта и расположение в городе Ташкент:",
+                cart_title: "Ваша Корзина", fav_title: "Избранные Блюда", total_price: "Итого:", btn_checkout: "Оформить заказ",
+                footer_desc: "Одна из крупнейших и современных сетей быстрого питания в Узбекистане.", footer_col1: "Страницы", footer_col2: "Помощь"
+            },
+            en: {
+                nav_home: "Home", nav_menu: "Menu", nav_about: "About Us", nav_cart: "Cart", nav_contact: "Contacts",
+                about_title: "Leaders in Fast Food Industry",
+                about_subtitle: "EVOS delivers high quality, fast service, and delicious food for every customer.",
+                stat_1: "Modern Branches", stat_2: "Average Delivery", stat_3: "Happy Customers", stat_4: "100% Halal Fresh",
+                story_title: "Our Quality Guarantee",
+                story_desc1: "We focus on ingredient freshness for every lavash and pizza using certified HALOL products.",
+                story_desc2: "Today, we bring joy to thousands of customers across Uzbekistan every day.",
+                map_title: "Main Branch Location", map_desc: "Our central location in Tashkent city:",
+                cart_title: "Your Shopping Cart", fav_title: "Favorite Dishes", total_price: "Total:", btn_checkout: "Proceed to Checkout",
+                footer_desc: "One of the largest and most modern fast-food chains in Uzbekistan.", footer_col1: "Pages", footer_col2: "Help"
+            }
+        };
+
+        let currentLang = localStorage.getItem('app_lang') || 'uz';
+        let currentTheme = localStorage.getItem('app_theme') || 'light';
+        let cartState = JSON.parse(localStorage.getItem('app_cart')) || [];
+        let favState = JSON.parse(localStorage.getItem('app_favs')) || [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme(currentTheme);
+            applyLanguage(currentLang);
+            updateBadges();
+            setupEvents();
+        });
+
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('app_theme', theme);
+            themeToggleBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        }
+        themeToggleBtn.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(currentTheme);
+        });
+
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        langBtn.addEventListener('click', () => langDropdown.classList.toggle('show'));
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+            applyLanguage(lang);
+            renderCart();
+            renderFavs();
+            langDropdown.classList.remove('show');
+        }
+
+        function applyLanguage(lang) {
+            document.documentElement.setAttribute('data-lang', lang);
+            document.getElementById('currentLangText').textContent = lang.toUpperCase();
+            document.querySelectorAll('[data-lang-key]').forEach(elem => {
+                const key = elem.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    elem.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function updateBadges() {
+            document.getElementById('cartBadge').textContent = cartState.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('favBadge').textContent = favState.length;
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            container.innerHTML = '';
+            let total = 0;
+            if (cartState.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted); margin-top:20px;">Savatchingiz bo'sh.</p>`;
+                document.getElementById('cartTotalPrice').textContent = `0 so'm`;
+                return;
+            }
+            cartState.forEach(cartItem => {
+                const product = productsData.find(p => p.id === cartItem.id);
+                if (product) {
+                    total += product.price * cartItem.qty;
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <img src="${product.img}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${product.name[currentLang]}</div>
+                            <div class="cart-item-price">${product.price.toLocaleString()} so'm</div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+            document.getElementById('cartTotalPrice').textContent = `${total.toLocaleString()} so'm`;
+        }
+
+        function renderFavs() {
+            const container = document.getElementById('favItemsContainer');
+            container.innerHTML = '';
+            if (favState.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted); margin-top:20px;">Sevimli taomlar ro'yxati bo'sh.</p>`;
+                return;
+            }
+            favState.forEach(favId => {
+                const product = productsData.find(p => p.id === favId);
+                if (product) {
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <img src="${product.img}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${product.name[currentLang]}</div>
+                            <div class="cart-item-price">${product.price.toLocaleString()} so'm</div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+        }
+
+        function setupEvents() {
+            document.getElementById('cartModalBtn').addEventListener('click', () => { renderCart(); openModal('cartOverlay'); });
+            document.getElementById('closeCartBtn').addEventListener('click', () => closeModal('cartOverlay'));
+            document.getElementById('favModalBtn').addEventListener('click', () => { renderFavs(); openModal('favOverlay'); });
+            document.getElementById('closeFavBtn').addEventListener('click', () => closeModal('favOverlay'));
+        }
+    </script>
+</body>
+</html>
